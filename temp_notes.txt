@@ -1,0 +1,168 @@
+To create a Debian package for your `streamweaver` project that meets your requirements, we will define a `debian/` folder containing all the necessary files and logic. This will allow you to build the `.deb` package manually while keeping your existing project structure intact.
+
+---
+
+### **Debian Folder Structure**
+Here is the structure of the `debian/` folder:
+
+```
+debian/
+├── control
+├── postinst
+├── prerm
+├── rules
+├── changelog
+├── compat
+├── source/
+│   └── format
+```
+
+---
+
+### **1. `control` File**
+The `control` file contains metadata about the package. Place it in the `debian/` folder with the following content:
+
+```plaintext
+Source: streamweaver
+Section: utils
+Priority: optional
+Maintainer: Your Name <your.email@example.com>
+Build-Depends: debhelper (>= 12), python3, python3-pip, python3-setuptools
+Standards-Version: 4.5.0
+Homepage: https://github.com/yourusername/streamweaver
+
+Package: streamweaver
+Architecture: all
+Depends: ${python3:Depends}, ffmpeg
+Description: Utility to stream MP4 videos via RTSP
+ A utility that loops MP4 files and serves them as RTSP streams using MediaMTX and FFmpeg.
+```
+
+---
+
+### **2. `postinst` File**
+The `postinst` script runs after the package is installed. It ensures that `mediamtx` is installed and sets up the environment. Make it executable (`chmod +x debian/postinst`).
+
+```bash
+#!/bin/bash
+set -e
+
+# Install Python dependencies
+pip3 install -r /usr/share/streamweaver/requirements.txt
+
+# Make mediamtx executable
+chmod +x /usr/share/streamweaver/src/streamweaver/thirdparty/mediamtx/mediamtx
+```
+
+---
+
+### **3. `prerm` File**
+The `prerm` script runs before the package is removed. It cleans up any installed dependencies. Make it executable (`chmod +x debian/prerm`).
+
+```bash
+#!/bin/bash
+set -e
+
+# Uninstall Python dependencies
+pip3 uninstall -y -r /usr/share/streamweaver/requirements.txt
+```
+
+---
+
+### **4. `rules` File**
+The `rules` file defines how the package is built. Make it executable (`chmod +x debian/rules`).
+
+```makefile
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	# Copy the source code to the appropriate location
+	mkdir -p debian/streamweaver/usr/share/streamweaver
+	cp -r src debian/streamweaver/usr/share/streamweaver/
+	cp -r requirements.txt debian/streamweaver/usr/share/streamweaver/
+	cp -r video debian/streamweaver/usr/share/streamweaver/
+```
+
+---
+
+### **5. `changelog` File**
+The `changelog` file tracks changes to the package. Here is an example:
+
+```plaintext
+streamweaver (1.0.0) unstable; urgency=medium
+
+  * Initial release.
+
+ -- Your Name <your.email@example.com>  Sat, 17 May 2025 12:00:00 +0000
+```
+
+---
+
+### **6. `compat` File**
+This file specifies the debhelper compatibility level. Add the following content:
+
+```plaintext
+12
+```
+
+---
+
+### **7. `source/format` File**
+This file specifies the source package format. Add the following content:
+
+```plaintext
+3.0 (quilt)
+```
+
+---
+
+### **8. Copy Files to the Correct Locations**
+When the package is installed, the files should be placed in the following locations:
+
+- **Python Code**: `/usr/share/streamweaver/src/`
+- **MediaMTX Binary and Config**: `/usr/share/streamweaver/src/streamweaver/thirdparty/mediamtx/`
+- **Requirements File**: requirements.txt
+- **Sample Videos**: `/usr/share/streamweaver/video/`
+
+---
+
+### **9. Build the Debian Package**
+To build the package manually, run the following commands:
+
+```bash
+# Navigate to the project root
+cd /path/to/streamweaver
+
+# Build the Debian package
+dpkg-deb --build .
+```
+
+This will generate a `.deb` file in the parent directory.
+
+---
+
+### **10. Install and Test the Package**
+Install the package on a Debian-based system:
+
+```bash
+sudo dpkg -i streamweaver.deb
+```
+
+Run the program to verify it works:
+
+```bash
+python3 -m streamweaver.entrypoint /usr/share/streamweaver/video/kung_fu_clean.mp4
+python3 -m streamweaver.entrypoint /usr/share/streamweaver/video/kung_fu_clean.mp4 --fps 25 --codec libx264 --res 720
+```
+
+---
+
+### **Key Notes**
+1. The `mediamtx` binary and configuration file are isolated in `/usr/share/streamweaver/src/streamweaver/thirdparty/mediamtx/` to avoid conflicts with other instances.
+2. The `postinst` script ensures that all dependencies are installed and the environment is set up correctly.
+3. The `rules` file ensures that the source code and required files are copied to the correct locations during the build process.
+
+Let me know if you need further clarification or adjustments!
