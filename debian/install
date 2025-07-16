@@ -1,4 +1,4 @@
-src/* usr/share/streamweaver/src/
-requirements.txt usr/share/streamweaver/
-video/* usr/share/streamweaver/video/
-debian/streamweaver-mediamtx.service lib/systemd/system/
+src/* opt/streamweaver/src/
+requirements.txt opt/streamweaver/
+video/* opt/streamweaver/video/
+scripts/* opt/streamweaver/scripts/
