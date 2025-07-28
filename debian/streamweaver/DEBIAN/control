@@ -1,0 +1,10 @@
+Package: streamweaver
+Version: 1.0.1
+Architecture: all
+Maintainer: Your Name <your@email.com>
+Installed-Size: 41815
+Depends: ffmpeg, python3-venv
+Section: utils
+Priority: optional
+Description: Utility to stream MP4 videos via RTSP using MediaMTX
+ A utility that loops MP4 files and serves them as RTSP streams using MediaMTX and FFmpeg.

@@ -1,0 +1,8 @@
+# src/streamweaver/thirdparty/mediamtx/mediamtx.yml
+
+rtspAddress: 0.0.0.0:8554 #Only for WSL
+
+paths:
+  all:
+    source: publisher
+    sourceProtocol: tcp

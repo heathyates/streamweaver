@@ -14,8 +14,15 @@ fi
 /opt/streamweaver/venv/bin/pip install -r /opt/streamweaver/requirements.txt
 
 # Install mediamtx if not present
-if ! command -v mediamtx >/dev/null 2>&1 && [ ! -f /opt/streamweaver/mediamtx ]; then
-    /opt/streamweaver/venv/bin/python /opt/streamweaver/scripts/install_mediamtx.py
-    cp /opt/streamweaver/src/streamweaver/thirdparty/mediamtx/mediamtx /opt/streamweaver/mediamtx
-    chmod +x /opt/streamweaver/mediamtx
-fi
+#if ! command -v mediamtx >/dev/null 2>&1 && [ ! -f /opt/streamweaver/mediamtx ]; then
+#    /opt/streamweaver/venv/bin/python /opt/streamweaver/scripts/install_mediamtx.py
+#    cp /opt/streamweaver/src/streamweaver/thirdparty/mediamtx/mediamtx /opt/streamweaver/mediamtx
+#    chmod +x /opt/streamweaver/mediamtx
+#fi
+
+# Always install mediamtx and copy to /opt/streamweaver/mediamtx
+/opt/streamweaver/venv/bin/python /opt/streamweaver/scripts/install_mediamtx.py
+cp /opt/streamweaver/src/streamweaver/thirdparty/mediamtx/mediamtx /opt/streamweaver/mediamtx
+cp /opt/streamweaver/src/streamweaver/thirdparty/mediamtx/mediamtx.yml /opt/streamweaver/mediamtx.yml
+chmod +x /opt/streamweaver/mediamtx
+

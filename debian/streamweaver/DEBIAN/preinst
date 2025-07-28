@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+
+# Create /opt/streamweaver if not exists
+mkdir -p /opt/streamweaver

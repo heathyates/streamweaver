@@ -1,0 +1,9 @@
+./src/streamweaver
+./src/streamweaver.egg-info
+./requirements.txt
+./video/dancing_space_seals.mp4
+./video/kung_fu_clean.mp4
+./scripts/download_video.sh
+./scripts/install_mediamtx.py
+./scripts/run_streamweaver.sh
+./scripts/short_clip.mp4

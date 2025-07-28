@@ -1,3 +1,10 @@
+streamweaver (1.0.1) unstable; urgency=medium
+
+  * Refactor package with new entrypoint.
+
+ -- Heath Yates <heathyates@outlook.com>  Sun, 27 Jul 2025 12:00:00 +0000
+
+
 streamweaver (1.0.0) unstable; urgency=medium
 
   * Initial release.

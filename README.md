@@ -40,18 +40,24 @@ Next, we run the server as follows:
 `src/streamweaver/thirdparty/mediamtx/mediamtx src/streamweaver/thirdparty/mediamtx/mediamtx.yml`
 
 ## Run Program
-`python -m streamweaver.entrypoint video/kung_fu_clean.mp4`
-`python -m streamweaver.entrypoint video/kung_fu_clean.mp4 --fps 25 --codec libx264 --res 720`
-`python -m streamweaver.entrypoint video/dancing_space_seals.mp4 --fps 25 --codec libx264 --res 720`
+
+The following is the default as follows: 
+
+`/opt/streamweaver/venv/bin/python /opt/streamweaver/src/streamweaver/entrypoint.py`
+
+The following is running a custom video: 
+
+```
+/opt/streamweaver/venv/bin/python /opt/streamweaver/src/streamweaver/entrypoint.py \
+  --path /opt/streamweaver/video/dancing_space_seals.mp4 \
+  --fps 25 \
+  --width 1920 \
+  --height 1080 \
+  --rtsp-url rtsp://127.0.0.1:8554/custom-ai
+```
 
 
-## Run H.264
 
-First, verify that you have Nvidia GPU based encoder:
-`ffmpeg -encoders | grep nvenc`
-
-Second, try something like the following:
-`python -m streamweaver.entrypoint video/kung_fu_clean.mp4 --fps 2 --codec h264_nvenc --res 720`
 
 ## Creating debian package
 
@@ -75,7 +81,9 @@ Third, you can confirm it is running with the following command:
 ## Install debian package
 
 ```
-sudo dpkg -i stream
+sudo dpkg -i streamweaver_1.0.0_all.deb 
+
+```
 
 ## Uninstall debian package
 
@@ -87,9 +95,44 @@ sudo dpkg --purge streamweaver
 rm -rf debian/streamweaver debian/.debhelper debian/files debian/debhelper-build-stamp
 ```
 
+## Debugging the service file 
+
+Please navigate here: 
+`/usr/lib/systemd/system/streamweaver.service`
+
+Make changes to this file and then run: 
+
+```
+sudo systemctl daemon-reload
+sudo systemctl restart streamweaver
+sudo systemctl status streamweaver
+```
+
+## Run the video for simulation 
+/opt/streamweaver/venv/bin/python /opt/streamweaver/src/streamweaver/entrypoint.py
+
+
+
 Finally,
 
 ## TO DO
+
+
+```
+#!/bin/bash
+echo "Restarting streamweaver service..."
+sudo systemctl restart streamweaver
+echo "Service status:"
+sudo systemctl status --no-pager --full streamweaver
+echo "Recent logs:"
+sudo journalctl -u streamweaver --no-pager -n 30#!/bin/bash
+echo "Restarting streamweaver service..."
+sudo systemctl restart streamweaver
+echo "Service status:"
+sudo systemctl status --no-pager --full streamweaver
+echo "Recent logs:"
+sudo journalctl -u streamweaver --no-pager -n 30
+```
 
 - Remove ability to stand up mtx automatically in debian
 - Spin up mtx (if it doesn't already existt) with ffmpeg and be able to set the port
@@ -100,3 +143,9 @@ Finally,
 - [RTSP Loop](https://stackoverflow.com/questions/25648337/using-vlc-to-host-a-stream-of-an-infinite-video-loop)
 - [RTSP Loop II](https://stackoverflow.com/questions/63129603/making-gstreamer-video-audio-in-python-smooth-and-loop)
 - [RTSP Loop III](https://stackoverflow.com/questions/53747278/seamless-video-loop-in-gstreamer?rq=3)
+
+
+## Technical References 
+- [Packaing Tutorial](https://www.debian.org/doc/manuals/packaging-tutorial/packaging-tutorial)
+- [Ultimate Packaging Tutorial](https://dario.griffo.io/posts/ultimate-guide-debian-packaging/)
+- []
