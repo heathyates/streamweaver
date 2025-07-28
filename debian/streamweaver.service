@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/share/streamweaver/src/streamweaver/thirdparty/mediamtx/mediamtx /usr/share/streamweaver/src/streamweaver/thirdparty/mediamtx/mediamtx.yml
+ExecStart=/opt/streamweaver/mediamtx /opt/streamweaver/mediamtx.yml
 Restart=on-failure
 User=streamweaver
 
